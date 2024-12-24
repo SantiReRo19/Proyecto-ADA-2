@@ -89,18 +89,20 @@ class Aplicacion(ttk.Window):
         if not self.ruta_archivo:
             self.mostrar_mensaje_temporal("✖ No se ha seleccionado ningún archivo", "red")
             return
+        
+        self.mensaje_estado.set("Ejecutando modelo...")
 
         opcion = self.opcion_seleccionada.get()
         if opcion == "Gecode":
             salida = ejecutar_modelo(self.ruta_archivo, "gecode")
-            self.mensaje_estado.set("Ejecutando con Gecode")
+            self.mensaje_estado.set("Ejecución con Gecode")
         elif opcion == "Chuffed":
             salida = ejecutar_modelo(self.ruta_archivo, "chuffed")
-            self.mensaje_estado.set("Ejecutando con Chuffed")
+            self.mensaje_estado.set("Ejecución con Chuffed")
 
         elif opcion == "CoinBC":
             salida = ejecutar_modelo(self.ruta_archivo, "coinbc")
-            self.mensaje_estado.set("Ejecutando con CoinBC")
+            self.mensaje_estado.set("Ejecución con CoinBC")
         else:
             salida = "Opción desconocida."    
 

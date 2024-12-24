@@ -5,8 +5,6 @@ int: num_ubicaciones_existentes;
 array[1..num_ubicaciones_existentes] of int: x_coords; % Coordenadas x de las ubicaciones predefinidas
 array[1..num_ubicaciones_existentes] of int: y_coords; % Coordenadas y de las ubicaciones predefinidas
 
-array[1..num_ubicaciones_existentes, 1..2] of int: coords;
-
 int: n; % Dimensión del plano
 array[0..n-1,0..n-1] of int: poblacion; % Matriz de segmento de población
 array[0..n-1,0..n-1]  of int: entorno; % Matriz de entorno empresarial
@@ -14,7 +12,7 @@ array[0..n-1,0..n-1]  of int: entorno; % Matriz de entorno empresarial
 int: num_programas; % numero de programas
 
 
-% VARIABLES
+% VARIABLES ------------------------------------------------------------------------------
 array[0..n-1,0..n-1] of var 0..1: nuevas_ubicaciones; % 1 si se selecciona, 0 si no
 
 % INICIALIZACION
@@ -24,7 +22,9 @@ array[0..n-1,0..n-1] of int: ubicaciones_predefinidas =
             (i = x_coords[c] /\ j = y_coords[c]) 
             then 1 else 0 endif | i, j in 0..n-1]);
 
-% RESTRICCIONES
+% RESTRICCIONES ----------------------------------------------------
+
+% Restricción: las ubicaciones predefinidas no pueden ser modificadas y se agregan al conjunto de nuevas ubicaciones
 constraint forall(i, j in 0..n-1)(
   ubicaciones_predefinidas[i, j] = 1 -> nuevas_ubicaciones[i, j] = 1
 );
