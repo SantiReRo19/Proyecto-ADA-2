@@ -23,8 +23,8 @@ class Aplicacion(ttk.Window):
         encabezado = ttk.Label(self, text="Ingeniería al Infinito", font=("Comic Sans MS", 28, "bold"), anchor=CENTER)
         encabezado.pack(pady=15)
         
-        instrucciones = ttk.Label(self, text="Por favor, selecciona el modelo", font=("Arial", 12))
-        instrucciones.pack(pady=5)
+        self.instrucciones = ttk.Label(self, text="Por favor, selecciona tu entrada de datos", font=("Arial", 12))
+        self.instrucciones.pack(pady=5)
         
         boton_archivo = ttk.Button(self, text="Seleccionar Archivo", command=self.seleccionar_archivo, bootstyle=PRIMARY)
         boton_archivo.pack(pady=10)
@@ -78,24 +78,29 @@ class Aplicacion(ttk.Window):
         if self.ruta_archivo:
             if self.ruta_archivo.endswith(".txt"):
                 nombre_archivo = os.path.basename(self.ruta_archivo)
-                self.mensaje_estado.set(f"Archivo cargado: {nombre_archivo}")
+                self.instrucciones.config(text=f"Archivo seleccionado: {nombre_archivo}")
             else:
-                self.mensaje_estado.set("El archivo seleccionado no es válido. Por favor, selecciona un archivo .mzn")
+                self.mensaje_estado.set("El archivo seleccionado no es válido. Por favor, selecciona un archivo .txt")
 
     def ejecutar(self):
         # Limpiar panel de salida
         self.salida_ejecucion.delete(1.0, END)
 
+        if not self.ruta_archivo:
+            self.mostrar_mensaje_temporal("✖ No se ha seleccionado ningún archivo", "red")
+            return
+
         opcion = self.opcion_seleccionada.get()
         if opcion == "Gecode":
             salida = ejecutar_modelo(self.ruta_archivo, "gecode")
-            #salida = "Ejecutando con Gecode..."
+            self.mensaje_estado.set("Ejecutando con Gecode")
         elif opcion == "Chuffed":
             salida = ejecutar_modelo(self.ruta_archivo, "chuffed")
-            #salida = "Ejecutando con Chuffed..."
+            self.mensaje_estado.set("Ejecutando con Chuffed")
+
         elif opcion == "CoinBC":
             salida = ejecutar_modelo(self.ruta_archivo, "coinbc")
-            #salida = "Ejecutando con CoinBC..."
+            self.mensaje_estado.set("Ejecutando con CoinBC")
         else:
             salida = "Opción desconocida."    
 

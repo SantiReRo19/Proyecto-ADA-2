@@ -34,7 +34,6 @@ def ejecutar_modelo(ruta_archivo, solverElegido):
 
     # Resolver el modelo
     result = instance.solve()
-    print(result)
 
     # Resolver el modelo
     result = instance.solve()
