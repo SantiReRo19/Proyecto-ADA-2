@@ -17,19 +17,19 @@ array[0..n-1,0..n-1] of var 0..1: nuevas_ubicaciones; % 1 si se selecciona, 0 si
 
 % INICIALIZACION
 array[0..n-1,0..n-1] of int: ubicaciones_predefinidas = 
-  array2d(0..n-1,0..n-1, 
+  array2d(0..n-1,0..n-1,
         [if exists(c in 1..num_ubicaciones_existentes) 
             (i = x_coords[c] /\ j = y_coords[c]) 
             then 1 else 0 endif | i, j in 0..n-1]);
 
-% RESTRICCIONES ----------------------------------------------------
+% RESTRICCIONES ---------------------------------------------------------------------------
 
 % Restricción: las ubicaciones predefinidas no pueden ser modificadas y se agregan al conjunto de nuevas ubicaciones
 constraint forall(i, j in 0..n-1)(
   ubicaciones_predefinidas[i, j] = 1 -> nuevas_ubicaciones[i, j] = 1
 );
 
-% Restricción: solo se pueden construir n nuevas_ubicaciones
+% Restricción: solo se pueden construir el numero de nuevos programas + las ubicaciones predefinidas
 constraint sum(i in 0..n-1, j in 0..n-1)(nuevas_ubicaciones[i,j]) = num_programas + num_ubicaciones_existentes;
 
 % Restricción: no se puede construir en zonas adyacentes
@@ -53,8 +53,6 @@ constraint forall(i, j in 0..n-1)(
   (calcular_contiguos(poblacion, i, j) >= 25 
   /\ calcular_contiguos(entorno, i, j) >= 20)
 );
-
-
 
 % Ganancia antes de la reubicación(coordenadas predefinidas)
 var int: ganancia_antes = sum(x in 0..n-1, y in 0..n-1)(

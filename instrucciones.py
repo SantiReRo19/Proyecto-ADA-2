@@ -14,7 +14,7 @@ def ejecutar_modelo(ruta_archivo, solverElegido):
     num_programas = entrada["num_programas"]
 
     # Cargar modelo de MiniZinc
-    modelo = Model("./modelo.mzn") 
+    modelo = Model("./modelo.mzn")
     solvercito = Solver.lookup(solverElegido)
     instance = Instance(solvercito, modelo)
 
